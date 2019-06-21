@@ -7,33 +7,41 @@
     <link async href="http://fonts.googleapis.com/css?family=Anton" data-generated="http://enjoycss.com" rel="stylesheet" type="text/css"/>
     <script src="moment.js"></script>
     <script src="livestamp.min.js"></script>
+    <div class=logoContainer>
+      <img class="logo" src="logo.png">
+    </div>
   </head>
   <body>
-      <h1>T W I D D L E R</h1>
-      <div class='topButton'>
-        <div class='button updateButton'>Update</div>
-        <div class='button postButton'>Post</div>
-      </div>
+    <div class="topButtons">
+      <div class='button postButton'>Post</div>
+    </div>
       <div id="myModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
         </div>
       </div>
-      <div class='tweet-container'></div>
-      <script>
 
+      <div class='tweet-container'></div>
+
+      <script>
         $(document).ready(function(){
           var $body = $('.tweet-container');
           $body.html('');
 
           var index = streams.home.length - 1;
-          while(index >= 0){
+          var stop = (streams.home.length - 1) - 25;
+
+          if (stop < 0){
+              stop = 0;
+          }
+
+          while(index >= stop){
             var tweet = streams.home[index];
             var $tweet = $('<div class=tweet></div>');
             var $date = $('<div class= date></div>');
             var $user = $('<div class= user></div>');
             var $time = $('<span class=time></span>');
-            var $message = $('<div class=message></div');
+            var $message = $('<div class=message></div>');
             
             $tweet.appendTo($body);
             $date.text(tweet.created_at.toDateString()).appendTo($tweet);
@@ -44,19 +52,27 @@
             index -= 1;
           }
 
-          $('.updateButton').on('click', function(){
+          var updateTweets = function(){
+            $('.tweet-container').empty();
 
             var $body = $('.tweet-container');
             $body.html('');
 
             var index = streams.home.length - 1;
-            while(index >= 0){
+            var stop = (streams.home.length - 1) - 25;
+
+            if (stop < 0){
+              stop = 0;
+            }
+
+            while(index >= stop){
               var tweet = streams.home[index];
               var $tweet = $('<div class=tweet></div>');
               var $date = $('<div class= date></div>');
               var $user = $('<div class= user></div>');
               var $time = $('<span class=time></span>');
-              var $message = $('<div class=message></div');            
+              var $message = $('<div class=message></div>');
+                
               $tweet.appendTo($body);
               $date.text(tweet.created_at.toDateString()).appendTo($tweet);
               $user.text('@' + tweet.user + ': ').appendTo($tweet);
@@ -65,39 +81,55 @@
 
               index -= 1;
             }
-          });
+
+          }
+
+          var addNewTweets = function() {
+            updateTweets();
+            setTimeout(addNewTweets, 4000);
+          }
+
+          addNewTweets();
 
           $(document).on('click', ".user", function(){
-              modal.style.display = "block"
-              var username = event.target.textContent;
-              username = username.replace('@', '').replace(':', '').replace(' ', '');
-              var userMessages = streams.users[username];
-              $('<p class=intro>Post History</p>').appendTo('.modal-content')
+            modal.style.display = "block"
+            var username = event.target.textContent;
+            username = username.replace('@', '').replace(':', '').replace(' ', '');
+            var userMessages = streams.users[username];
+            $('<p class="intro">Post History</p>').appendTo('.modal-content')
 
-              var index = streams.users[username].length - 1;
-              while(index >= 0){
-                var modalTweet = streams.users[username][index];
-                var $modalTweet = $('<div class=modalTweet></div>');
-                var $modalTime = $('<span class=time></span>')
-                var $modalUser = $('<div class=user></div>');
-                var $modalMessage = $('<div class=message></div');
-                var $modalDate = $('<div class= date></div>');
+            var index = streams.users[username].length - 1;
+            var stop = (streams.home.length - 1) - 25;
+
+            if (stop < 0){
+              stop = 0;
+            }
+
+            while(index >= stop){
+              var modalTweet = streams.users[username][index];
+              var $modalTweet = $('<div class=modalTweet></div>');
+              var $modalTime = $('<span class=time></span>')
+              var $modalUser = $('<div class=user></div>');
+              var $modalMessage = $('<div class=message></div');
+              var $modalDate = $('<div class= date></div>');
                 
 
-                $modalTweet.appendTo('.modal-content');
-                $modalDate.text(modalTweet.created_at.toDateString()).appendTo($modalTweet);
-                $modalUser.text('@' + modalTweet.user + ': ').appendTo($modalTweet);
-                $modalMessage.text(modalTweet.message).appendTo($modalTweet);
-                $modalTime.attr('data-livestamp', modalTweet.created_at.toUTCString()).appendTo($modalTweet);
+              $modalTweet.appendTo('.modal-content');
+              $modalDate.text(modalTweet.created_at.toDateString()).appendTo($modalTweet);
+              $modalUser.text('@' + modalTweet.user + ': ').appendTo($modalTweet);
+              $modalMessage.text(modalTweet.message).appendTo($modalTweet);
+              $modalTime.attr('data-livestamp', modalTweet.created_at.toUTCString()).appendTo($modalTweet);
 
-                index -= 1;
-              }
+              index -= 1;
+            }
+
           });
 
           $('.postButton').on('click', function(){
             modal.style.display = "block"
             $('<div class="addpost"><p class="addpost">Add a Post</p><p class="addpost"><input id="username" type="text" name="username" placeholder="username"></p><textarea class="addpost" id="textarea" placeholder="What is on your mind?"></textarea><div class=addpost><div class="button submitButton">Submit</div></div>').appendTo('.modal-content');
           });
+
           var visitor;
 
           $(document).on('click', '.submitButton', function(){
@@ -108,49 +140,29 @@
             $('.modalTweet').remove();
             $('.addpost').remove();
             $('.intro').remove();
+          });
 
-            var $body = $('.tweet-container');
-            $body.html('');
-
-            var index = streams.home.length - 1;
-            while(index >= 0){
-              var tweet = streams.home[index];
-              var $tweet = $('<div class=tweet></div>');
-              var $date = $('<div class= date></div>');
-              var $user = $('<div class= user></div>');
-              var $time = $('<span class=time></span>');
-              var $message = $('<div class=message></div');            
-              $tweet.appendTo($body);
-              $date.text(tweet.created_at.toDateString()).appendTo($tweet);
-              $user.text('@' + tweet.user + ': ').appendTo($tweet);
-              $message.text(tweet.message).appendTo($tweet);
-              $time.attr('data-livestamp', tweet.created_at.toUTCString()).appendTo($tweet);
-
-              index -= 1;
-            }
-
-            });
-                      // Get the modal
           var modal = document.getElementById("myModal");
-            // Get the button that opens the modal
           var btn = document.getElementsByClassName("user");
-            // Get the <span> element that closes the modal
           var span = document.getElementsByClassName("close")[0];
-           // When the user clicks on <span> (x), close the modal
+
           span.onclick = function() {
+            modal.style.display = "none";
+            $('.modalTweet').remove();
+            $('.addpost').remove();
+            $('.intro').remove();
+          }
+            
+          window.onclick = function(event) {
+            if (event.target == modal) {
               modal.style.display = "none";
               $('.modalTweet').remove();
               $('.addpost').remove();
               $('.intro').remove();
-          }
-            // When the user clicks anywhere outside of the modal, close it
-          window.onclick = function(event) {
-              if (event.target == modal) {
-                modal.style.display = "none";
-              }
-          }
-      });
+            }
+          };
 
+        });
       </script>
   </body>
 </html>

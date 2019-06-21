@@ -1,21 +1,32 @@
 body {
-	background-image: linear-gradient(lightgreen,lightblue, pink, red);
-	font-family: Verdana, Geneva, sans-serif;
+	background-image: linear-gradient(rgb(175,150,115,0.7), rgb(101,79,47,0.9));
+	font-family: "Courier New", Courier, monospace
+}
+
+.logoContainer {
+	display: flex;
+	justify-content: center;
 }
 
 .button {
-
+	border-width: 1px;
+	border: solid;
+	border-color: gray;
+	/*padding: 10px 10px;
+	margin: 25px 25px;
+	border-radius: 15px;
+	padding: 25px 25px;
+	width: 80vw;*/
 	display: flex;
 	border-radius: 8px;
 	display: inline-block;
 	background-color: lightgray;
 	border: none;
-	color: blue;
-	padding: 5px 5px;
+	color: rgb(46, 72, 96);
+	/*padding: 5px 5px;*/
 	text-align: center;
 	text-decoration: none;
 	font-size: 10px;
-	margin: 10px 10px;
 	cursor: pointer;
 	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.5), 0 6px 20px 0 rgba(0,0,0,0.19);
 	transition-duration: 0.4s;
@@ -30,16 +41,20 @@ body {
   box-shadow: 0 5px #666;
   transform: translateY(4px);
 }
+.topButtons{
+	display: flex;
+	justify-content: center;
+}
 
 .user{
-	color: blue;
+	color: white;
 	font-size: 20px;
 	font-weight: bold;
+	padding-bottom: 15px;
 }
 
 .message{
 	font-size: 22px;
-
 }
 
 .date{
@@ -47,6 +62,7 @@ body {
 	color: lightgray;
 	padding-bottom: 8px;
 }
+
 .time{
 	font-size: 12px;
 	color: lightgray;
@@ -57,72 +73,54 @@ body {
 .tweet{
 	border-width: 1px;
 	border: solid;
-	border-color: ;
+	border-color: gray;
 	padding: 10px 10px;
 	margin: 25px 25px;
 	border-radius: 15px;
 	padding: 25px 25px;
 	width: 80vw;
 	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.5), 0 6px 30px 0 rgba(0,0,0,0.1);
-	background: white
-
+	background: rgb(46, 72, 96);
+	color: #f8c700;
 }
-.updateButton{
-	font-size: 28px;
-	font-weight: bold;
-	padding: 15px;
 
-}
-.topButton{
+.postButton{
 	display: flex;
 	justify-content: center;
-}
-.postButton{
 	font-size: 28px;
 	font-weight: bold;
-	padding: 15px;
+	width: 60vw;
+	padding: 10px 10px;
+	margin: 25px 25px;
+	border-radius: 15px;
+	padding: 25px 25px;
 }
+
 .submitButton{
 	font-size: 16px;
 	padding: 5px;
 }
 
-.addpost{
-	
-}
 #username{
 	margin-bottom: 10px;
 	font-size: 14px;
 }
+
 #textarea{
 	min-width: 100%;
 	min-height: 200px;
-	font-size: 18px
-
+	font-size: 18px;
 }
 
-h1 {
-	display: flex;
-	justify-content: center;
-
-  box-sizing: content-box;
-  border: none;
-  background-color: white;
-  font: normal 12vw/normal "Anton", Helvetica, sans-serif;
-  color: gray;
-  padding: 10px;
-  margin-right: 10vw;
-  margin-left: 10vw;
-  margin-top: 0px;
-  margin-bottom: 10px;
-  text-align: center;
-  -o-text-overflow: clip;
-  text-overflow: clip;
-  border-radius: 40px;
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.5), 0 6px 30px 0 rgba(0,0,0,0.1);
-  text-shadow: 5px 5px 0 rgb(255,210,23,0.8) , 10px 10px 0 rgb(90,199,255,0.6) , 15px 14px 0 rgb(255,210,23,0.4) , 20px 20px 0 rgb(90,199,255,0.2) ;
-
-  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAa0lEQVQoU2NkgIKmQ37/6+w2MYK4xpnX/h9piWDgFL4E54MZhBSdna7FyEiMIpBhYBNxWQcyCWYjTjchKwK5nRGbw9EVga3+/lbvP7LvsCkCGYbiRlyKdtW2QDwD0oFPkbDUMogbCSkCGQYAka1/qtQO9d8AAAAASUVORK5CYII=) repeat;
+.logo{
+	max-height: 98%;
+	max-width: 98%;
+	width: auto;
+	height: auto;
+	border: none;
+	margin: 2%;
+	border-radius: 40px;
+	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.5), 0 6px 30px 0 rgba(0,0,0,0.1);
 }
 
 .tweet-container {
@@ -131,9 +129,8 @@ h1 {
 	min-height: 100px;
 	display: flex;
 	flex-wrap: wrap;
-	padding: -1px;
-	z-index: -1;
 }
+
 .userContainer{
 	width: 70vw;
 	margin: auto;
@@ -157,7 +154,6 @@ h1 {
   overflow: auto; /* Enable scroll if needed */
   background-color: lightblue; /* Fallback color */
   background-color: rgba(15,20,155,0.4); /* Black w/ opacity */
-  
   overflow-y: auto;
 }
 
@@ -171,6 +167,7 @@ h1 {
 	height: 70vh;
 	overflow-y: auto
 }
+
 .modalTweet{
 	border-width: 1px;
 	border: solid;
@@ -183,7 +180,6 @@ h1 {
 	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.5), 0 6px 30px 0 rgba(0,0,0,0.1);
 	background: white;
 }
-
 /* The Close Button */
 .close {
 	color: black;
@@ -193,8 +189,6 @@ h1 {
 	position: fixed;
 	top: 5%;
 	right: 5%;
-
-
 }
 
 .close:hover,
